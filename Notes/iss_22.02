@@ -1,0 +1,15 @@
+[html/QakService24Usage.html]
+
+...
+Indipendentemente dal protocollo, la struttura dei messaggi (richieste e risposte)
+deve essere chiara per poter utilizzare una determinata API.
+
+[Struttura generale dei messaggi]
+
+Tutti gli attori hanno un nome univoco. La struttura dei messaggi inviati e 
+ricevuti da un attore sara' invariante al protocollo e al servizio.
+L'interfaccia IAppIMessage conterrà metodi per discriminare la tipologia di messaggio.
+
+A seconda del protocollo, saranno prodotti diversi programmi; questo porta a diversi metodi ("Il come") a fronte di un unico problema ("Il cosa").
+
+

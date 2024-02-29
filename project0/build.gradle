@@ -63,9 +63,10 @@ eclipse {
 }
 
 application {
-        // mainClass = 'main.ServiceCallerTCPNaive'
-		// mainClass = 'main.ServiceCallerCoAPNaive'
-		mainClass = 'main.ServiceCallerInteraction'
+        //mainClass = 'main.ServiceCallerTCPNaive'
+		//mainClass = 'main.ServiceCallerCoAPNaive'
+		//mainClass = 'main.ServiceCallerInteraction'
+		mainClass = 'main.ServiceCallerTCPwithFactory'		
 }
 
 jar {

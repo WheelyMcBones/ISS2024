@@ -1,0 +1,51 @@
+[html/QakService24Usage.html]
+
+Un servizio e' un'entità osservabile nel senso che emette informazioni percepibili da client connessi
+come osservatori, e non come emettitori di comandi al servizio.
+
+LAB: abbiamo avviato il servizio "math" e creato il clientTCP
+
+RESTful: GET, POST, PUT utilizzati in modo disciplinato, costituendo uno standard
+CoAP: utilizza UDP a livello di trasporto, con comunicazione RESTful
+
+Per comunicare con il servizio, è visto come una risorsa e lo si identifica attraverso con un URI.
+CoAP rende un servizio osservabile.
+
+La sendUsingCoap() è bloccante.
+
+Dopo le prove con i client, vediamo l'interazione con ServiceCallerInteraction: lo scopo è rendere l'interazione indipendente dal protocollo applicativo utilizzato.
+Privilegiamo il "COSA" al "COME".
+
+API: selectAndSend()
+	-> varia i parametri a seconda del tipo di protocollo utilizzato (switch/case)
+	-> una factory crea la connessione con il client
+	-> invia una richiesta (sincrona o asincrona)
+	-> chiude la connessione
+	
+API: sendRequestSynch()
+	-> utilizza il metodo request() di Interaction: sincrono
+
+API: sendRequestAsynch()
+	-> utilizza il metodo forward() di Interaction: asincrono (fire&forget)
+	-> successiva receiveMsg() per ricezione messaggio
+	
+Siamo quindi passati dal descrivere il meccanismo di interazione, all'esprimere la logica di interazione.
+
+[-> QakService24WithInteraction.html]
+
+In generale, ogni volta che si astrae da una specifica (che sia protocollo, tecnologia), si perde il controllo su di essa.
+Operare astrazione porta grandi vantaggi: i concetti technology-independent risultano fondamentali nella prima analisi del problema del progetto.
+
+----> CHATGPT analisi e progettazione
+
+[----> ProdConsSystem.html]
+Analisi del problema: descrizione in quanto analista, ossia 
+ --> Dato il problema, esprimere l'architettura logica del sistema:
+ 	Quanti componenti sono presenti?
+ 	Come interagiscono fra loro, per formare il sistema?
+ 	
+ --> Test Plan: esempio di richiesta e verifica della risposta: non ci interessa il "come".
+ 
+
+
+
