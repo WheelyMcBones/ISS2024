@@ -2,6 +2,7 @@ package main;
 
 import unibo.basicomm23.interfaces.IApplMessage;
 
+
 import unibo.basicomm23.interfaces.Interaction;
 import unibo.basicomm23.mqtt.MqttConnection;
 import unibo.basicomm23.msg.ProtocolType;

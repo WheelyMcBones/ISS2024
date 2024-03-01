@@ -25,6 +25,7 @@ public class ServiceCallerTCPwithFactory {
 
 		ProtocolType proto = ProtocolType.tcp;
 		String hostAddr = "130.136.113.239";
+		hostAddr = "localhost";
 		String entry = "8011";
 		Interaction conn = ConnectionFactory.createClientSupport(proto, hostAddr, entry);
 
