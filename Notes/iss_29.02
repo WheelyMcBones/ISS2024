@@ -63,13 +63,9 @@ E' sufficiente un ACK per poter confermare la ricezione.
 - E' meglio elaborare le richieste in modo FIFO? Se si invia una risposta, il Produttore si 
 accorge qualora il Consumatore lavori in modo FIFO. Se invece le richieste sono Fire&Forget, no.
 
-PER MARTEDI: CognomeNome_ProdConsAfterAnalysis.pdf
+PER MARTEDI 05/03: CognomeNome_ProdConsAfterAnalysis.pdf
 	Scegliamo uno scenario con uno o più Prod connessi via TCP, e ne realizziamo 
 	un prototipo.
 	Non specificato se Sync/Async -> a discrezione.
 	Nella progettazione, vediamo il passaggio dal "cosa" al "come". 
-
-
-
-
 

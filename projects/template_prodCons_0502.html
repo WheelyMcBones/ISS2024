@@ -337,14 +337,29 @@
 				In questo caso, i client sono rappresentati dai Produttori, mentre il server è dato dal Consumatore.
 				Stando ai requisiti, l'interazione può essere asincrona non bloccante (le richieste dei client possono
 				essere "fire & forget").
+				In questo modello, i Produttori devono conoscere il Consumatore, mentre non è vero il viceversa.
 			</li>
 			<li>
-				<b>Modello ad Eventi (Pub/Sub)</b>: In questo caso, è presente un gestore della comunicazione (broker),
+				<b>Publisher-Subscriber (Pub/Sub)</b>: In questo caso, è presente un gestore della comunicazione
+				(broker),
 				a cui i publisher (i Produttori) e il subscriber (il Consumatore) sono iscritti; quest'ultimo riceverà i
-				messaggi dal broker, che li avrà ricevuti precedentemente dai publisher.
+				messaggi dal broker, che li avrà ricevuti precedentemente dai publisher. In questo modello, i Produttori
+				e il Consumatore conoscono il broker.
+			</li>
+			<li>
+				<b>Modello ad Eventi</b>: qui, i Produttori sono visti come puri emettitori di eventi; l'informazione
+				viene emessa, e il Consumatore potrà ascoltarla. In questo modello, vi è totale disaccoppiamento delle
+				parti.
 			</li>
 		</ul>
 		In ogni caso, per comunicare, le due parti dovranno concordare un coerente formato dei messaggi.
+	</div>
+	<div class="remark">
+		<h3><b>Ulteriori considerazioni</b></h3>
+		Come già specificato, è necessario che si preveda una modalità di invio delle richieste dai Produttori al
+		Consumatore, mentre non è necessario il viceversa.
+		Qualora non si intenda sviluppare una modalità di risposta al Produttore (Fire & Forget), quest'ultimo non
+		avrebbe modo di verificare la corretta ricezione della richiesta.
 	</div>
 
 
@@ -360,12 +375,61 @@
 				la corretta ricezione dei messaggi da parte del Consumatore.
 			</li>
 			<li>
-				il corretto formato dei messaggi. 
+				il corretto formato dei messaggi.
+			</li>
+		</ul>
+		Qualora si intenda sviluppare una modalità di risposta al Produttore, diventa necessario prevedere le analoghe
+		verifiche anche per tale messaggio.
+	</div>
+
+	<h2><b>Project</b></h2>
+	<div class="remark">
+		La scelta di progettazione ricade sul modello Client-Server visto nella fase di Analisi, implementato sul
+		protocollo TCP. Come specificato nella fase precedente, l'architettura prevede i Produttori come clienti e il
+		Consumatore come server; inoltre, i client e il server non risiedono necessariamente sullo stesso nodo. Sulla base di queste informazioni:
+		<ul>
+			<li>
+				I Produttori devono conoscere il Consumatore per potergli inviare una richiesta: ciascuno dei Produttori
+				dovrà quindi conoscere indirizzo IP e porta su cui il Consumatore riceve le richieste.
+			</li>
+			<li>
+				Si sceglie di prevedere due modalità di invio delle richieste: Request e Forward.
+				<ul>
+					<li>
+						Per un messaggio Request, il Produttore resterà in attesa di una risposta (Sincrono) da parte
+						del Consumatore: si prevede pertanto l'invio di un messaggio di ACK (acknowledgement) dal
+						Consumatore per comunicare la ricezione della richiesta al Produttore.
+					</li>
+					<li>
+						Per un messaggio Forward, il Produttore non si aspetta una risposta (Asincrono), e non è
+						prevista quindi nessuna ulteriore gestione della comunicazione in tale scenario (Fire & Forget).
+					</li>
+				</ul>
+			</li>
+			<li>
+				Il Consumatore gestirà le richieste in modo First In First Out (FIFO): sarà necessario prevedere una
+				coda in cui inserire le richieste da gestire.
+			</li>
+			<li>
+				Il formato dei messaggi scambiati sarà quello espresso e definito nella interfaccia IApplMessage.
+			</li>
+		</ul>
+		Per abbattere il costo di progetto, la progettazione avviene sulla base delle librerie <i>
+			unibo.basicomm23</i> già fornite. Attraverso di esse:
+		<ul>
+			<li>
+				realizzeremo il Produttore come un client abilitato alla Trasmissione di messaggi: troviamo già
+				implementata la logica per l'instaurazione della connessione con il Server, attraverso la classe <i>ActorNaiveCaller</i>; ci limiteremo quindi a scrivere la
+				<i>business logic</i> della gestione dei messaggi.
+			</li>
+			<li>
+				realizzeremo il Consumatore come un server abilitato alla Ricezione di messaggi: anche in questo caso, la
+				logica per l'instaurazione della connessione bidirezionale è già implementata; la classe ServerFactory
+				si occuperà di restituire un opportuno oggetto Server in grado di gestire la connessione. Ci limiteremo
+				a implementare la gestione dei messaggi a livello applicativo, basandoci sull'interfaccia <i>IApplMsgHandler</i>.<br>
 			</li>
 		</ul>
 	</div>
-
-	<h2>Project</h2>
 
 	</div>
 

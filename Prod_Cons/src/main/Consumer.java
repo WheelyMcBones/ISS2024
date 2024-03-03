@@ -30,6 +30,8 @@ public class Consumer implements IApplMsgHandler {
 
 	private String consumerName;
 
+	// crea il TCPServer (con ServerSocket) -> utilizza un ConnectionHandler per la gestione della connessione bidirezionale
+	
 	protected void startServerConsumer() {
 		server = ServerFactory.create(this.getName(), port, protocol, this);
 		server.start();
@@ -47,11 +49,11 @@ public class Consumer implements IApplMsgHandler {
 
 		// è una REQUEST -> Producer si aspetta una risposta (ACK)
 		if (message.isRequest()) {
-			String payload = "ACK_inResponseTo_" + message.msgContent();
+			String payload = "ACK_inResponseTo_" + message.msgContent() + "_from_" + message.msgSender();
 
 			// costruisco risposta (ACK)
 			IApplMessage response = CommUtils.buildReply(this.getName(), message.msgId(), payload, message.msgSender());
-			System.out.println("RESPONSE FORMAT: " + response);
+			System.out.println("RESPONSE FORMAT: " + response + "SeqNUM: " + response.msgNum());
 
 			// invio risposta
 			try {
@@ -75,7 +77,7 @@ public class Consumer implements IApplMsgHandler {
 	private void status(IApplMessage msg) {
 		String type = (msg.isRequest()) ? "-> Sending Response..." : "-> Done";
 		String stat = "Consumer " + this.getName() + ": received message: '" + msg.msgContent() + "' from Producer "
-				+ msg.msgId() + " " + type;
+				+ msg.msgSender() + " " + type;
 		if (msg.isRequest()) {
 			CommUtils.outblue(stat);
 		} else if (msg.isDispatch()) {

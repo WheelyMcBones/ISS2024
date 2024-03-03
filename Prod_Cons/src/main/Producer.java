@@ -10,23 +10,33 @@ public class Producer extends ActorNaiveCaller {
 
 	public Producer(String name, ProtocolType protocol, String hostAddr, String entry) {
 		super(name, protocol, hostAddr, entry);
-		// --> port
 	}
+	
+	private static int id_msg = 0;
+	private static String msgid = "id" + Producer.id_msg;
 
 	@Override
-	// invio richieste
+	// corpo del Producer (chiamato da run()) -> invio richieste
 	protected void body() throws Exception {
-		String msgid = "id0";
 		String msgcontent = "SyncRequest";
 		String serviceToRequest = "consumer";
-		IApplMessage request;
+		IApplMessage request, response;
 
-		// Request SINCRONA
+		// Invio di 2 Request SINCRONE
 		try {
 			request = CommUtils.buildRequest(this.name, msgid, msgcontent, serviceToRequest);
-			CommUtils.outblue(this.protocol + " | Richiesta Sincrona: richiesta = " + request.msgContent());
-			IApplMessage response = this.connSupport.request(request);
-			CommUtils.outmagenta(this.protocol + " | Richiesta Sincrona: risposta = " + response.msgContent());
+			CommUtils.outblue(this.protocol + " | Richiesta Sincrona da " + this.name + ": richiesta = " + request.msgContent());
+			Producer.id_msg++;
+			
+			response = this.connSupport.request(request);
+			CommUtils.outmagenta(this.protocol + " | Richiesta Sincrona da " + this.name + ": risposta = " + response.msgContent());
+			
+			request = CommUtils.buildRequest(this.name, msgid, msgcontent, serviceToRequest);
+			CommUtils.outblue(this.protocol + " | Richiesta Sincrona da " + this.name + ": richiesta = " + request.msgContent());
+			Producer.id_msg++;
+			
+			response = this.connSupport.request(request);
+			CommUtils.outmagenta(this.protocol + " | Richiesta Sincrona da " + this.name + ": risposta = " + response.msgContent());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,11 +46,13 @@ public class Producer extends ActorNaiveCaller {
 		try {
 			msgcontent = "AsyncRequest";
 			request = CommUtils.buildDispatch(this.name, msgid, msgcontent, serviceToRequest);
-			CommUtils.outblue(this.protocol + " | Richiesta Asincrona: richiesta = " + request.msgContent());
+			CommUtils.outblue(this.protocol + " | Richiesta Asincrona da " + this.name + ": richiesta = " + request.msgContent());
 			this.connSupport.forward(request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+//	private IApplMessage buildingMsg()
 
 }
