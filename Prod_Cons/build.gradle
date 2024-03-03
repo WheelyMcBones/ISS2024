@@ -63,7 +63,7 @@ eclipse {
 }
 
 application {
-        mainClass = 'main.ServiceCallerTCPNaive'
+        mainClass = 'main.ProducerMain'
 }
 
 jar {

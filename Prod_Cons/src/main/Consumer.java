@@ -47,10 +47,11 @@ public class Consumer implements IApplMsgHandler {
 
 		// è una REQUEST -> Producer si aspetta una risposta (ACK)
 		if (message.isRequest()) {
-			String payload = "ACK[response -> " + message + "]";
+			String payload = "ACK_inResponseTo_" + message.msgContent();
 
 			// costruisco risposta (ACK)
 			IApplMessage response = CommUtils.buildReply(this.getName(), message.msgId(), payload, message.msgSender());
+			System.out.println("RESPONSE FORMAT: " + response);
 
 			// invio risposta
 			try {
@@ -65,7 +66,7 @@ public class Consumer implements IApplMsgHandler {
 		}
 		// è una FORWARD -> Producer NON si aspetta una risposta
 		else if (message.isDispatch()) {
-			CommUtils.outyellow("Consumer " + this.getName() + ": consumed message.");
+			CommUtils.outmagenta("Consumer " + this.getName() + ": consumed message.");
 		}
 
 	}
@@ -78,7 +79,7 @@ public class Consumer implements IApplMsgHandler {
 		if (msg.isRequest()) {
 			CommUtils.outblue(stat);
 		} else if (msg.isDispatch()) {
-			CommUtils.outyellow(stat);
+			CommUtils.outmagenta(stat);
 
 		}
 	}

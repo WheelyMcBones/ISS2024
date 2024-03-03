@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11/"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11/">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/home/wheelymcbones/.gradle/caches/modules-2/files-2.1/com.googlecode.json-simple/json-simple/1.1.1/c9ad4a0850ab676c5c64461a05ca524cdfff59f1/json-simple-1.1.1.jar" sourcepath="/home/wheelymcbones/.gradle/caches/modules-2/files-2.1/com.googlecode.json-simple/json-simple/1.1.1/15bba08e3a239d54b68209c001f9c911559d2fed/json-simple-1.1.1-sources.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="test"/>
@@ -22,5 +26,15 @@
 			<attribute name="gradle_used_by_scope" value="test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/2p301.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/qakdisplaygui24-1.0.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/qakdisplaygui24-1.0-plain.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/radarPojo.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/servicefacade24-1.0.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/servicefacade24-1.0-plain.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/unibo.planner23-1.0.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/unibo.qakactor23-5.0.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/uniboInterfaces.jar"/>
+	<classpathentry kind="lib" path="/home/wheelymcbones/Development/tom_iss/unibolibs/unibonoawtsupports.jar"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

@@ -17,7 +17,7 @@ public class Producer extends ActorNaiveCaller {
 	// invio richieste
 	protected void body() throws Exception {
 		String msgid = "id0";
-		String msgcontent = "Richiestona!!!!!";
+		String msgcontent = "SyncRequest";
 		String serviceToRequest = "consumer";
 		IApplMessage request;
 
@@ -34,9 +34,10 @@ public class Producer extends ActorNaiveCaller {
 		
 		// Request ASINCRONA
 		try {
-			msgcontent = "RICHIESTONA ASINCRONONA!";
+			msgcontent = "AsyncRequest";
 			request = CommUtils.buildDispatch(this.name, msgid, msgcontent, serviceToRequest);
 			CommUtils.outblue(this.protocol + " | Richiesta Asincrona: richiesta = " + request.msgContent());
+			this.connSupport.forward(request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
