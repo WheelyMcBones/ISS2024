@@ -1,2 +1,37 @@
-L'analisi del problema non deve essere effettuata in linguaggio naturale.
+[towards-actors.html]
+Il concetto di Connessione e Interaction che abbiamo utilizzato ci ha permesso di nascondere
+i dettagli del protocollo, ma ha cambiato lo spazio concettuale (quello in cui il problema risiede).
+Il testing di messaggi dispatch non può avvenire, se non attraverso logging operato sul Consumer,
+andando così a 
 
+Rendendo il Consumer un Observable, si possono registrare gli Observer ad esso, che saranno 
+aggiornati non appena lo stato del Observable cambia. 
+
+[Package unibo.naiveActors24]
+Le classi inserite nel package unibo.naiveactors24 sono un esempio di una possibile 
+implementazione del concetto di Actor limitato ad un ambiente locale.
+Un attore è un'entità attiva che non presenta memoria comune, che può inglobare POJO, e:
+- quando esegue, può effettuare operazioni autonome
+- quando esegue, può lavorare in modo diverso a seconda dei messaggi in arrivo
+
+In progettazione, gli attori condividono un server attraverso un contesto.
+Il contesto è l'abilitatore alle comunicazioni esterne con gli attori, e viceversa: si occupa di 
+inserire in coda agli attori i messaggi provenienti dall'esterno.
+Un attore (ActorBasic24) può 
+- inviare messaggi (IApplMessage) ad altri attori nello stesso contesto,
+- elaborare i messaggi ricevuti da una coda di ingresso;
+	- I messaggi possono provenire anche da Alien
+
+L'attore è un oggetto Java a livello sommerso, ma visto dall'esterno sarà una entità attiva.
+
+Il contesto rappresenta l'abilitatore alle comunicazioni, e contiene la creazione dei server, 
+i gestori dei messaggi, e una mappa contenente gli attori al suo interno.
+Il gestore dei messaggi di un contesto (ContextMsgHandler) conterrà elaborate(), e quindi elaborerà
+i messaggi provenienti dall'esterno, utilizzando una specifica politica.
+
+Estendendo le classi, si utilizzano unicamente le primitive a livello applicativo per l'invio
+di messaggi.
+Un attore invia solo richieste non bloccanti: si sblocca solo quando l'altro attore collocherà la 
+risposta all'interno della sua coda.
+
+Un attore Observable permette di chiamare gli Observer a lui legati. 

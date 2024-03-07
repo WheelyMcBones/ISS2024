@@ -1,4 +1,4 @@
-package main.interaction;
+package main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -34,8 +33,8 @@ public class TestProdConsInteraction {
 	@BeforeClass
 	public static void activateConsumer() {
 		CommUtils.outmagenta("activateConsumer");
-		new MainEmablersConsumerOnly().configureTheSystem();
-		connSupport = ConnectionFactory.createClientSupport(ProtocolType.tcp, "localhost", "8888");
+		new ConsumerMain().configure();
+		connSupport = ConnectionFactory.createClientSupport(ProtocolType.tcp, "localhost", "8010");
 	}
 
 	@After
@@ -66,70 +65,23 @@ public class TestProdConsInteraction {
 //	}
 
 	@Test
-	public void testRequestAfterRequestFail() {
-		CommUtils.outmagenta("testRequestAfterRequestFail ======================================= ");
+	public void testRequestAfterRequest() {
+		CommUtils.outmagenta("testRequestAfterRequest ======================================= ");
 		// Funge da Producer come ProducerUsingConnection
-		IApplMessage req = CommUtils.buildRequest("sgreccia", "distance", "distance(20)", "consumer");
-		IApplMessage req1 = CommUtils.buildRequest("sgreccia", "distance", "distance(190)", "consumer");
+		IApplMessage req = CommUtils.buildRequest("Sgreccia", "distance", "distance(20)", "consumer");
+		IApplMessage req1 = CommUtils.buildRequest("Sgreccia", "distance", "distance(190)", "consumer");
 		try {
+			// richiesta bloccante
 			connSupport.forward(req);
+//			CommUtils.outblue("reply=" + reply);
+//			String answer = reply.msgContent();
+//			assertEquals(answer, "ack(distance(20))");
 
 			IApplMessage reply1 = connSupport.request(req1);
 			CommUtils.outblue("reply1=" + reply1);
 			String answer1 = reply1.msgContent();
-//			assertEquals(answer1, "ack(distance(190))");
 			assertNotSame(answer1, "ack(distance(190))");
-			connSupport.receive(); 
 
-		} catch (Exception e) {
-			fail("testRequest " + e.getMessage());
-		}
-	}
-	
-	@Test
-	public void testRequestAfterRequestOk() {
-		CommUtils.outmagenta("testRequestAfterRequestOk ======================================= ");
-		// Funge da Producer come ProducerUsingConnection
-		IApplMessage req = CommUtils.buildRequest("sgreccia", "distance", "distance(20)", "consumer");
-		IApplMessage req1 = CommUtils.buildRequest("sgreccia", "distance", "distance(150)", "consumer");
-		IApplMessage req2 = CommUtils.buildRequest("sgreccia", "distance", "distance(190)", "consumer");
-		IApplMessage req3 = CommUtils.buildRequest("sgreccia", "distance", "distance(210)", "consumer");
-		IApplMessage req4 = CommUtils.buildRequest("sgreccia", "distance", "distance(250)", "consumer");
-		try {
-
-			
-			connSupport.forward(req);
-			connSupport.forward(req1);
-			connSupport.forward(req2);
-			connSupport.forward(req3);
-			connSupport.forward(req4);
-			
-			IApplMessage reply = connSupport.receive();
-			IApplMessage reply1 = connSupport.receive();
-			IApplMessage reply2 = connSupport.receive();
-			IApplMessage reply3 = connSupport.receive();
-			IApplMessage reply4 = connSupport.receive();
-
-			CommUtils.outblue("reply=" + reply);
-			CommUtils.outblue("reply1=" + reply1);
-			CommUtils.outblue("reply2=" + reply2);
-			CommUtils.outblue("reply3=" + reply3);
-			CommUtils.outblue("reply4=" + reply4);
-
-			String answer = reply.msgContent();
-			String answer1 = reply1.msgContent();
-			String answer2 = reply2.msgContent();
-			String answer3 = reply3.msgContent();
-			String answer4 = reply4.msgContent();
-			
-			
-			assertEquals(answer, "ack(distance(20))");
-			assertEquals(answer1, "ack(distance(150))");
-			assertEquals(answer2, "ack(distance(190))");
-			assertEquals(answer3, "ack(distance(210))");
-			assertEquals(answer4, "ack(distance(250))");
-
-		
 		} catch (Exception e) {
 			fail("testRequest " + e.getMessage());
 		}

@@ -1,18 +1,12 @@
-package unibo.naiveactors24;
-
+package naive.actors;
 import java.util.Vector;
 
 public interface IContext24 {
 	public String getName();
-
-	public Vector<String> getLocalActorNames();
-
+	public Vector<String> getLocalActorNames( );
 	public ActorBasic24 getActor(String actorName);
-
-	public void addActor(ActorBasic24 a);
-
+	public void addActor( ActorBasic24 a );
 	public void removeActor(ActorBasic24 a);
-
-	public void showActorNames();
+	public  void showActorNames( );
 
 }

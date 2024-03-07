@@ -1,4 +1,4 @@
-package unibo.naiveactors24;
+package naive.actors;
 
 import unibo.basicomm23.interfaces.IApplMessage;
 import unibo.basicomm23.interfaces.Interaction;
@@ -58,13 +58,9 @@ public abstract class ActorBasic24 implements IActor24 {
 		}
 	}
 
-//    public void activate(){
-//        new Thread(){
-//            public void run(){
-//                mainLoop();
-//            }
-//        }.start();
-//    }
+
+//	protected void updateResource(String s);
+
 	public void activateAndStart() {
 		new Thread() {
 			public void run() {
@@ -77,30 +73,30 @@ public abstract class ActorBasic24 implements IActor24 {
 	protected void forward(IApplMessage msg) {
 		sendMsg(msg, ctx);
 		if (!msg.isDispatch())
-			CommUtils.outyellow("		ActorBasic24 | warning: forward for non-dispatch");
+			CommUtils.outyellow(this.name + "	| warning: forward for non-dispatch");
 	}
 
 	protected void request(IApplMessage msg) {
 		if (!msg.isRequest())
-			CommUtils.outyellow("		ActorBasic24 | warning: request for non-request");
+			CommUtils.outyellow(this.name + "	| warning: request for non-request");
 		requestMap.put(msg.msgSender(), msg);
 		sendMsg(msg, ctx);
 	}
 
 	protected void answer(IApplMessage msg) {
 		if (!msg.isReply())
-			CommUtils.outyellow("		ActorBasic24 | warning: reply for non-reply");
+			CommUtils.outyellow(this.name + "	| warning: reply for non-reply");
 		IApplMessage request = requestMap.remove(msg.msgReceiver());
 		if (request != null)
 			sendReply(request, msg);
 		else
-			CommUtils.outred("		ActorBasic24 | ERROR: answer without request");
+			CommUtils.outred(this.name + "	| ERROR: answer without request");
 	}
 
 	protected synchronized void reply(IApplMessage request, IApplMessage msg) {
 		sendReply(request, msg);
 		if (!msg.isReply())
-			CommUtils.outyellow("		ActorBasic24 | warning: reply for non-reply");
+			CommUtils.outyellow(this.name + "	| warning: reply for non-reply");
 	}
 
 	protected IApplMessage receive() {
@@ -108,7 +104,7 @@ public abstract class ActorBasic24 implements IActor24 {
 	}
 
 	/*
-	 * Invio di messaggio ad (altro) attore nel contesto Nel caso di attore non
+	 * Invio di messaggio ad (altro) attore nel contesto. Nel caso di attore non
 	 * locale, invia sulla connessione associata al messaggio
 	 */
 	protected void sendMsg(IApplMessage msg, ActorContext24 ctx) {
@@ -118,18 +114,18 @@ public abstract class ActorBasic24 implements IActor24 {
 			// + " msg.getConn()=" + msg.getConn());
 			ActorBasic24 dest = ctx.getActor(destActorName);
 			if (dest != null) {
-				CommUtils.outcyan("		ActorBasic24 | sendMsg " + msg + " to " + dest.name);
+				CommUtils.outcyan(this.name + "	 | sendMsg " + msg + " to " + dest.name);
 				dest.msgQueue.put(msg); // attore locale
 			} else {
 				Interaction callerConn = msg.getConn();
-				CommUtils.outyellow("		ActorBasic24 | sendMsg " + msg + " callerConn= " + callerConn);
+				CommUtils.outyellow(this.name + "	| sendMsg " + msg + " callerConn= " + callerConn);
 				if (callerConn != null) {
 					callerConn.forward(msg);
 				} else
-					CommUtils.outred("		ActorBasic24 | sorry, sendMsg to remote actor not implemented  ");
+					CommUtils.outred(this.name + "		| sorry, sendMsg to remote actor not implemented  ");
 			}
 		} catch (Exception e) {
-			CommUtils.outred("		ActorBasic24 | sendMsg ERROR  " + e.getMessage());
+			CommUtils.outred(this.name + "	| sendMsg ERROR  " + e.getMessage());
 		}
 	}
 
