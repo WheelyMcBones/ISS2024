@@ -4,9 +4,10 @@ import unibo.basicomm23.msg.ProtocolType;
 import unibo.basicomm23.utils.CommUtils;
 
 public class ProducerMain {
-	private static String host = "localhost";
-	private static String port = "8010";
-	private static final int NUM_PRODS = 3;
+//	private static String host = "localhost";
+	private static String host = "130.136.113.239";
+	private static String port = "8888";
+	private static final int NUM_PRODS = 1;
 
 	public static void main(String[] args) {
 		
