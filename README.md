@@ -3,4 +3,4 @@ Repo creata per il corso di Ingegneria dei Sistemi Software M.
 
 Progetti:
 - Project0: intro a Eclipse e Gradle, uso di ServiceMath via TCP, UDP, CoAP, HTTP e WebSocket.
-- ProdCons: esempio di comunicazione fra N Produttori e 1 Consumatore.
+- ProdCons: esempio di comunicazione fra N Produttori e 1 Consumatore, implementato con architettura C/S e Modello ad Attori.

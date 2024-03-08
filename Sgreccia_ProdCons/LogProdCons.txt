@@ -1,0 +1,24 @@
+LOG - Message from: Prod_One	| Hello_from_Prod_One_0
+msg(update,dispatch,Prod_One,Logger,Hello_from_Prod_One_0,4)
+LOG - Message from: Consumer	| ack(Hello_from_Prod_One_0)
+msg(update,dispatch,Consumer,Logger,ack(Hello_from_Prod_One_0),6)
+LOG - Message from: Prod_One	| Hello_from_Prod_One_1
+msg(update,dispatch,Prod_One,Logger,Hello_from_Prod_One_1,9)
+LOG - Message from: Consumer	| ack(Hello_from_Prod_One_1)
+msg(update,dispatch,Consumer,Logger,ack(Hello_from_Prod_One_1),11)
+LOG - Message from: Prod_One	| Hello_from_Prod_One_2
+msg(update,dispatch,Prod_One,Logger,Hello_from_Prod_One_2,14)
+LOG - Message from: Consumer	| ack(Hello_from_Prod_One_2)
+msg(update,dispatch,Consumer,Logger,ack(Hello_from_Prod_One_2),16)
+LOG - Message from: Prod_One	| Hello_from_Prod_One_3
+msg(update,dispatch,Prod_One,Logger,Hello_from_Prod_One_3,19)
+LOG - Message from: Consumer	| ack(Hello_from_Prod_One_3)
+msg(update,dispatch,Consumer,Logger,ack(Hello_from_Prod_One_3),21)
+LOG - Message from: Prod_One	| Hello_from_Prod_One_4
+msg(update,dispatch,Prod_One,Logger,Hello_from_Prod_One_4,24)
+LOG - Message from: Consumer	| ack(Hello_from_Prod_One_4)
+msg(update,dispatch,Consumer,Logger,ack(Hello_from_Prod_One_4),26)
+LOG - Message from: Prod_One	| Hello_from_Prod_One_5
+msg(update,dispatch,Prod_One,Logger,Hello_from_Prod_One_5,29)
+LOG - Message from: Consumer	| ack(Hello_from_Prod_One_5)
+msg(update,dispatch,Consumer,Logger,ack(Hello_from_Prod_One_5),31)
