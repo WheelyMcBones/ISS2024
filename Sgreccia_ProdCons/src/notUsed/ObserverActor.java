@@ -1,8 +1,8 @@
 package notUsed;
 
-import naive.actors.ActorBasic24;
-import naive.actors.ActorContext24;
-import naive.actors.ObservableActor;
+import actors.ActorBasic24;
+import actors.ActorContext24;
+import actors.ObservableActor;
 import unibo.basicomm23.interfaces.IApplMessage;
 
 public abstract class ObserverActor extends ActorBasic24 {
