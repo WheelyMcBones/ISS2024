@@ -7,7 +7,7 @@ import unibo.basicomm23.utils.CommUtils;
 
 public class MainPatternObserverActors {
 	public static final int NUM_PRODS = 3;
-	public static Map<String, Integer> producerAndMess = new HashMap<>(NUM_PRODS);
+	public static Map<String, Integer> producerAndMessages = new HashMap<>(NUM_PRODS);
 
 	public void configureTheSystem() {
 
@@ -28,7 +28,7 @@ public class MainPatternObserverActors {
 		consumer.addObserver(logger);
 		for (int i = 0; i < NUM_PRODS; i++) {
 			producers[i].addObserver(logger);
-			MainPatternObserverActors.producerAndMess.put(producers[i].name, 0);
+			MainPatternObserverActors.producerAndMessages.put(producers[i].name, 0);
 		}
 		
 		

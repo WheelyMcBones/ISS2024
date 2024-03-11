@@ -79,8 +79,8 @@ public class TestProdConsObserver {
 			// messaggio da parte del produttore
 			if (message.msgSender().startsWith("prod")) {
 				// incremento i messaggi "pending" per quel produttore
-				MainPatternObserverActors.producerAndMess.put(message.msgSender(),
-						MainPatternObserverActors.producerAndMess.get(message.msgSender()) + 1);
+				MainPatternObserverActors.producerAndMessages.put(message.msgSender(),
+						MainPatternObserverActors.producerAndMessages.get(message.msgSender()) + 1);
 			}
 			// messaggio da parte del consumatore
 			else {
@@ -89,18 +89,18 @@ public class TestProdConsObserver {
 				dest = dest.replace(")", "");
 
 				// decremento i messaggi "pending"
-				MainPatternObserverActors.producerAndMess.put(dest,
-						MainPatternObserverActors.producerAndMess.get(dest) - 1);
+				MainPatternObserverActors.producerAndMessages.put(dest,
+						MainPatternObserverActors.producerAndMessages.get(dest) - 1);
 
 			}
 
 		}
 
 		// stampe di controllo e test
-		for (String nameProd : MainPatternObserverActors.producerAndMess.keySet()) {
-			int n = MainPatternObserverActors.producerAndMess.get(nameProd);
+		for (String nameProd : MainPatternObserverActors.producerAndMessages.keySet()) {
+			int n = MainPatternObserverActors.producerAndMessages.get(nameProd);
 			System.out.println("Prod: " + nameProd + " has " + n + " pending");
-			assertEquals(MainPatternObserverActors.producerAndMess.get(nameProd).intValue(), 0);
+			assertEquals(MainPatternObserverActors.producerAndMessages.get(nameProd).intValue(), 0);
 		}
 
 		myReader.close();

@@ -32,10 +32,10 @@ public class ObservableProducer extends ObservableActor {
 			CommUtils.outmagenta(name + "	| Received result: " + msg.msgContent() + " from " + msg.msgSender());
 			
 			// triggering another request (test)
-//			if (counterMessages < NUM_MESS) {
-//				counterMessages++;
-//				forward(CommUtils.buildDispatch(name, "cmd", "start", name));;
-//			}
+			if (counterMessages < NUM_MESS) {
+				counterMessages++;
+				forward(CommUtils.buildDispatch(name, "cmd", "start", name));
+			}
 		}
 	}
 
