@@ -15,8 +15,8 @@ public class ObservableConsumer extends ObservableActor {
 		if (msg.isRequest() && !msg.msgSender().equalsIgnoreCase("Alien")) {
 			CommUtils.outred(name + "	| Received message from + " + msg.msgSender() + "--- SENDING UPDATES");
 
-			IApplMessage reply = CommUtils.buildReply(this.name, msg.msgId(), "ack(" + msg.msgContent() + ")",
-					msg.msgSender());
+			IApplMessage reply = CommUtils.buildReply(this.name, msg.msgId(),
+					"ack(" + msg.msgContent() + ")", msg.msgSender());
 			this.reply(msg, reply);
 
 			updateResource(reply.msgContent());

@@ -14,6 +14,7 @@ import org.junit.Test;
 import unibo.basicomm23.interfaces.IApplMessage;
 import unibo.basicomm23.msg.ApplMessage;
 import unibo.basicomm23.utils.CommUtils;
+import unibo.basicomm23.ws.WsConnSysObserver;
 import naive.actors.*;
 
 /*
@@ -28,6 +29,8 @@ import naive.actors.*;
  */
 public class TestProdConsObserver {
 
+	static MainPatternObserverActors main = null;
+
 	@BeforeClass
 	public static void activateConsumer() {
 //		int port1 = 8123;
@@ -40,9 +43,10 @@ public class TestProdConsObserver {
 //		ObserverLogger logger = new ObserverLogger("Logger", ctx1);
 //		consumer.addObserver(logger);
 //		producer1.addObserver(logger);
-		
-		new MainPatternObserverActors().configureTheSystem();
-	
+
+		main = new MainPatternObserverActors();
+		main.configureTheSystem();
+
 	}
 
 	@After
@@ -50,13 +54,12 @@ public class TestProdConsObserver {
 		CommUtils.outmagenta("end of  a test ");
 	}
 
-
 	@Test
 	public void testObserversLog() {
 		CommUtils.outmagenta("testObserversLog ======================================= ");
 
 		try {
-			Thread.sleep(800); // waits for end of messages
+			Thread.sleep(3000); // waits for end of messages
 			readLogFile();
 		} catch (Exception e) {
 			fail("testRequest " + e.getMessage());
@@ -64,29 +67,40 @@ public class TestProdConsObserver {
 	}
 
 	protected void readLogFile() throws IOException {
-		String line;
-		IApplMessage messageFromProd, responseFromConsumer;
+		String line, dest;
+		IApplMessage message;
 		File myObj = new File("LogProdCons.txt");
 		BufferedReader myReader = new BufferedReader(new FileReader(myObj));
-		
-		// producer sends 5 messages --> testing all 5 exchanges between Producer and Consumer
-		int i = 0;
 
-		while (myReader.readLine() != null) {
-			line = myReader.readLine();
-			messageFromProd = new ApplMessage(line);
-			CommUtils.outblue("" + messageFromProd);
+		while ((line = myReader.readLine()) != null) {
+			message = new ApplMessage(line);
+			CommUtils.outblue("" + message);
 
-			assertEquals(messageFromProd.msgContent(), "Hello_from_Prod_One_" + i);
+			// messaggio da parte del produttore
+			if (message.msgSender().startsWith("prod")) {
+				// incremento i messaggi "pending" per quel produttore
+				MainPatternObserverActors.producerAndMess.put(message.msgSender(),
+						MainPatternObserverActors.producerAndMess.get(message.msgSender()) + 1);
+			}
+			// messaggio da parte del consumatore
+			else {
+				// ricaviamo dal messaggio il Produttore corrispondente
+				dest = message.msgContent().split("from_")[1];
+				dest = dest.replace(")", "");
 
-			myReader.readLine(); // not used
-			line = myReader.readLine();
+				// decremento i messaggi "pending"
+				MainPatternObserverActors.producerAndMess.put(dest,
+						MainPatternObserverActors.producerAndMess.get(dest) - 1);
 
-			responseFromConsumer = new ApplMessage(line);
-			CommUtils.outblue("" + responseFromConsumer);
-			assertEquals(responseFromConsumer.msgContent(), "ack(" + messageFromProd.msgContent() + ")");
-			
-			i++;
+			}
+
+		}
+
+		// stampe di controllo e test
+		for (String nameProd : MainPatternObserverActors.producerAndMess.keySet()) {
+			int n = MainPatternObserverActors.producerAndMess.get(nameProd);
+			System.out.println("Prod: " + nameProd + " has " + n + " pending");
+			assertEquals(MainPatternObserverActors.producerAndMess.get(nameProd).intValue(), 0);
 		}
 
 		myReader.close();

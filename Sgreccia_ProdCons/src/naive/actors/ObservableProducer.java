@@ -7,6 +7,7 @@ public class ObservableProducer extends ObservableActor {
 
 	private int counterMessages = 0;
 	private String dest = "Consumer";
+	public static final int NUM_MESS = 3;
 
 	public ObservableProducer(String name, ActorContext24 ctx) {
 		super(name, ctx);
@@ -21,7 +22,7 @@ public class ObservableProducer extends ObservableActor {
 				IApplMessage message;
 				
 				CommUtils.outred(name + "	| Sending message to + " + this.dest + "--- SENDING UPDATES");
-				message = CommUtils.buildRequest(name, "generic", "Hello_from_" + this.name + "_" + counterMessages, dest);
+				message = CommUtils.buildRequest(name, "generic", "hello_from_" + this.name, dest);
 				updateResource(message.msgContent());
 				request(message);
 			}
@@ -31,10 +32,10 @@ public class ObservableProducer extends ObservableActor {
 			CommUtils.outmagenta(name + "	| Received result: " + msg.msgContent() + " from " + msg.msgSender());
 			
 			// triggering another request (test)
-			if (counterMessages < 5) {
-				counterMessages++;
-				forward(CommUtils.buildDispatch(name, "cmd", "start", name));;
-			}
+//			if (counterMessages < NUM_MESS) {
+//				counterMessages++;
+//				forward(CommUtils.buildDispatch(name, "cmd", "start", name));;
+//			}
 		}
 	}
 
