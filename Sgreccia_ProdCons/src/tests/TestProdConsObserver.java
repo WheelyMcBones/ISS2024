@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 
+
 import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
@@ -16,7 +17,6 @@ import actors.*;
 import unibo.basicomm23.interfaces.IApplMessage;
 import unibo.basicomm23.msg.ApplMessage;
 import unibo.basicomm23.utils.CommUtils;
-import unibo.basicomm23.ws.WsConnSysObserver;
 
 /*
  * ===========================================================================

@@ -1,0 +1,53 @@
+System helloworld0
+
+	  // msgID : payload
+Request req : requesting(STR) "formato di richiesta Prod -> Cons"
+Reply replied : replied(STR) "formato di risposta Cons -> Prod"
+
+Context ctxhello ip [host="localhost" port=8000] 
+
+
+QActor consumer context ctxhello{
+	State s0 initial{
+		println("Sono il $name") color magenta
+		delay 500
+	}
+	Transition t0 whenRequest req -> handleRequest
+	
+	State handleRequest{
+		onMsg(req : requesting(N)){
+			println("$name: received request ${payloadArg(0)}") color red
+			[#
+				var X = "${payloadArg(0)}"
+			#]
+			println("$name: sending response with $X") color black
+			replyTo req with replied : replied($X) 
+		}
+	}
+}
+
+QActor producer context ctxhello{
+	State s0 initial{
+		println("Sono il $name") color blue
+		delay 500
+		[#
+			var X = "39"
+		#]
+		println("$name: sending request with $X") color black
+		request consumer -m req : requesting($X)
+	}
+	Transition t0 whenReply replied -> handleResponse
+	
+	State handleResponse {
+		onMsg(replied : replied(STR)){
+			println("$name: received response ${payloadArg(0)}") color red
+		}
+	}
+}
+
+
+
+
+
+
+

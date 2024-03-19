@@ -124,15 +124,7 @@ dependencies {
 
     
     //USER libs for facades
-    implementation name: 'servicefacade24-1.0'
-    implementation name: 'servicefacade24-1.0-plain'
     
-	/* Librerie spring per il supporto a facade ***************************** */
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//depends on spring-boot-starter-logging, which already pulls in spring-jcl for us.
-	//When using starters, Logback is used for logging by default.
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 	
 sourceSets {
@@ -155,7 +147,7 @@ eclipse {
 
 application {
     //Define the main class for the application.
-    mainClass    = 'it.unibo.ctxservice.MainCtxserviceKt'
+    mainClass    = 'it.unibo.ctxhello.MainCtxhelloKt'
 }
  
  jar {
@@ -178,9 +170,9 @@ task dovesiamo {
 
 distributions {
     main {
-        distributionBaseName = 'servicemath24synch'
+        distributionBaseName = 'helloworld0'
         contents { 
-             from './servicemath24synch.pl'
+             from './helloworld0.pl'
              from './sysRules.pl'
              from './facadeConfig.json'
         }
@@ -191,7 +183,7 @@ task run0(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
-    main = 'it.unibo.ctxservice.MainCtxserviceKt'
+    main = 'it.unibo.ctxhello.MainCtxhelloKt'
 }
 
 /*

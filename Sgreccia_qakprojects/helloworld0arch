@@ -1,0 +1,13 @@
+digraph helloworld0Arch {
+	graph [fontcolor="#2D3436" fontname="Sans-Serif" fontsize=22 label=helloworld0Arch nodesep=0.60 pad=2.0 rankdir=LR ranksep=0.75 splines=ortho]
+	node [fixedsize=true fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 height=1.4 imagescale=true labelloc=b shape=box style=rounded width=1.4]
+	edge [color="#7B8894"]
+	subgraph cluster_env {
+		graph [bgcolor="#E5F5FD" fontname="Sans-Serif" fontsize=12 label=env labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+		"32ef852bd0114e9e93027fc31aea29da" [label="" height=1.9 image="./qakicons/system.png" shape=none]
+		subgraph cluster_ctxhello {
+			graph [bgcolor=lightyellow fontname="Sans-Serif" fontsize=22 label=ctxhello labeljust=l pencolor="#AEB6BE" rankdir=LR shape=box style=rounded]
+			b7b4ccf5de7e4d20baf547e5d83aabd7 [label=worker height=1.9 image="./qakicons/symActorSmall.png" shape=none]
+		}
+	}
+}

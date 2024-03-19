@@ -1,0 +1,73 @@
+System helloworld0
+
+	  // msgID : payload
+Dispatch info : info(N) "commento"
+Request req : requesting(N) "formato di richiesta Prod -> Cons"
+Reply replied : replied_to_(req) "formato di risposta Cons -> Prod"
+
+Context ctxhello ip [host="localhost" port=8000] 
+
+//QActor display context ctxhello{
+//	// dichiarazione stato e rispettive transizioni
+//	State s0 initial{
+//		println("Sono un $name") color red
+//	}
+//	Transition t0 whenMsg info -> handleInfo
+//		
+//		
+//	State handleInfo {
+//		printCurrentMessage
+//		
+//		onMsg(info: info(N)){
+//			println("$name: received dispatch ${payloadArg(0)}") color blue
+//		}
+//	}
+//	
+//} 
+//
+//QActor worker context ctxhello{
+//	State s0 initial{
+//		println("Hello $name") color magenta
+//		[# CommUtils.outblue("Hello world again") #]
+//		
+//		// invio di una dispatch
+//		[# Thread.sleep(200) #]
+//		forward display -m info : info(10)	
+//	}
+//} 
+
+QActor producer context ctxhello{
+	State s0 initial{
+		println("Sono il $name") color magenta
+		[#Thread.sleep(200)#]
+		println("$name: sending request ...") color black
+		request consumer -m req : requesting(39)
+	}
+	Transition t0 whenReply replied -> handleResponse
+	
+	State handleResponse {
+		onMsg(replied : replied_to_(req)){
+			println("$name: received response ${payloadArg(0)}") color red
+		}
+	}
+}
+
+QActor consumer context ctxhello{
+	State s0 initial{
+		println("Sono il $name") color magenta
+	}
+	Transition t0 whenRequest req -> handleRequest
+	
+	State handleRequest{
+		onMsg(req : requesting(N)){
+			println("$name: received request ${payloadArg(0)}") color red
+			println("$name: sending response ...") color black
+			replyTo req  with replied : replied_to_(req) 
+		}
+	}
+}
+
+
+
+
+

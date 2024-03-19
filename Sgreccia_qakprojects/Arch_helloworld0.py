@@ -17,13 +17,12 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('servicemath24synchArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('helloworld0Arch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
-     with Cluster('ctxservice', graph_attr=nodeattr):
-          servicemath=Custom('servicemath','./qakicons/symActorWithobjSmall.png')
-     f=Custom('f','./qakicons/server.png')
-     servicemath >> Edge( label='out', **eventedgeattr, decorate='true', fontcolor='red') >> sys
-     f >> Edge(color='blue', style='solid', decorate='true', label='< &harr; >',  fontcolor='blue') >> servicemath
+     with Cluster('ctxhello', graph_attr=nodeattr):
+          consumer=Custom('consumer','./qakicons/symActorSmall.png')
+          producer=Custom('producer','./qakicons/symActorSmall.png')
+     producer >> Edge(color='magenta', style='solid', decorate='true', label='<req &nbsp; >',  fontcolor='magenta') >> consumer
 diag
