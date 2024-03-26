@@ -1,0 +1,90 @@
+System pong
+ 
+Dispatch shot : shot(D)
+Request  gamestart : gamestart (D)
+Reply gamestartack  : ack(D) for gamestart
+Dispatch short : short(V) 
+
+Context ctxpong  ip [host="localhost" port=8015]
+Context ctxping  ip [host="127.0.0.1" port=8014] 
+
+ExternalQActor ping context ctxping
+
+   
+QActor pong context ctxpong {
+	[#  val MAXCOUNT= 5
+		var COUNT = 0
+		
+	#]
+	
+	State s0 initial{
+		println("$name STARTS") color blue
+	}
+	Transition t0 whenRequest gamestart -> handleRequest
+	
+	State handleDispatch{
+//		printCurrentMessage color blue
+		updateResource [# "short($name)" #]
+		onMsg( shot : shot(D)){
+			delay 500
+			println ("$name received shot from ${payloadArg(0)}") color blue
+			[# COUNT = COUNT + 1
+				
+				if(COUNT >= MAXCOUNT){
+					System.exit(0);
+				}	
+			#]
+			forward ping -m shot: shot(NAME)
+		}
+	} 
+	Transition t0 whenMsg shot -> handleDispatch
+	whenMsg short -> win
+	
+	
+	// REQUEST di INIZIO GAME
+	State handleRequest{
+		printCurrentMessage color magenta
+		updateResource [# "short($name)" #] 
+		delay 200 
+		 
+		onMsg( gamestart : gamestart(D)){ 
+			replyTo gamestart with gamestartack: ack( $payloadArg(0) )
+		}		 
+	}
+	Transition t0 whenMsg shot -> handleDispatch
+	
+	State win{
+		println("$name HO PERSO!") color red
+		[# System.exit(0) #]
+	} 
+} 
+
+QActor refereepong context ctxpong{
+	State s0 initial{
+		println("$name STARTS") color blue
+		observeResource pong msgid short
+	} 
+	Transition t0 whenMsg short -> handleUpdate
+	 
+	State handleUpdate{
+//		printCurrentMessage color black
+			onMsg(short : short(V)){ 
+			println("$name shot from:${payloadArg(0)}") color black
+//			[#
+//				var msg = "$name: received shot from ${payloadArg(0)}"  
+//				File("logpong.txt").appendText(msg + "\n")
+//			#]
+			 
+		}
+	}
+	Transition t0 whenTime 2000 -> win
+	whenMsg short -> handleUpdate
+	
+	State win{
+		println("Pong Ha PERSO!") color red
+		forward pong -m short : short(win)
+		[# System.exit(0) #]
+	}
+
+}
+

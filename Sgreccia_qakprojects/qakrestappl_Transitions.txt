@@ -1,0 +1,5 @@
+{"actor":"pong", "msgType":"dispatch", "curstate":"handleDispatch", "nextstate":"handleDispatch", "msgId":"shot"}
+{"actor":"pong", "msgType":"dispatch", "curstate":"handleDispatch", "nextstate":"win", "msgId":"short"}
+{"actor":"pong", "msgType":"dispatch", "curstate":"handleRequest", "nextstate":"handleDispatch", "msgId":"shot"}
+{"actor":"refereepong", "msgType":"dispatch", "curstate":"s0", "nextstate":"handleUpdate", "msgId":"short"}
+{"actor":"refereepong", "msgType":"dispatch", "curstate":"handleUpdate", "nextstate":"handleUpdate", "msgId":"short"}

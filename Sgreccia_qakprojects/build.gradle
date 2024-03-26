@@ -62,7 +62,7 @@ dependencies {
 
     /* COROUTINES ******************************************************************************* */
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
-    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: "$kotlinVersion", ext: 'pom'
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: "$kotlinVersion" 
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core-jvm', version: "$kotlinVersion"
 
@@ -144,10 +144,9 @@ eclipse {
  }
 
 
-
 application {
-    //Define the main class for the application.
-    mainClass    = 'it.unibo.ctxhello.MainCtxhelloKt'
+    // Define the main class for the application.
+    mainClass = 'it.unibo.ctxprodcons.MainCtxprodconsKt'
 }
  
  jar {
@@ -170,21 +169,45 @@ task dovesiamo {
 
 distributions {
     main {
-        distributionBaseName = 'helloworld0'
+        distributionBaseName = 'prodcons24'
         contents { 
-             from './helloworld0.pl'
+             from './prodcons24.pl'
              from './sysRules.pl'
              from './facadeConfig.json'
         }
     }
 } 
 
-task run0(type: JavaExec) {
+task runPong(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
-    main = 'it.unibo.ctxhello.MainCtxhelloKt'
+    main = 'it.unibo.ctxpong.MainCtxpongKt'
 }
+
+task runPing(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'it.unibo.ctxping.MainCtxpingKt'
+}
+
+/*
+task runProducer(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'it.unibo.ctxproducer.MainCtxproducerKt'
+}
+
+
+task runConsumer(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'it.unibo.ctxconsumer.MainCtxconsumerKt'
+}
+*/
 
 /*
 //TODO
