@@ -1,0 +1,62 @@
+System synchservice
+
+Request calculate : calculate(N)
+Reply replycalc : replycalc(N, K)
+
+Context ctx ip [host="localhost" port=8015]
+//Context ctxclient ip [host="127.0.0.1" port=8016]
+
+QActor provider context ctx {
+	State s0 initial {
+		println("sono $name") color magenta
+		delay 100
+	}
+	Transition t0 whenRequest calculate -> handleCalc
+	
+	State handleCalc {
+		onMsg (calculate : calculate(K)) {
+			println("$name ricevuto calculate(${payloadArg(0)})") color magenta
+			
+			[#	fun fibonacciUsingRecursion(num: Int): Int {
+    				return if (num <= 1) {
+       				 num
+   					} else {
+       				 fibonacciUsingRecursion(num - 1) + fibonacciUsingRecursion(num - 2)
+   					}
+				}
+				
+				val N = payloadArg(0)
+				val R = fibonacciUsingRecursion(N.toInt())
+			#]
+			replyTo calculate with replycalc : replycalc($payloadArg(0), $R)
+		}
+	}
+	Transition t1 whenRequest calculate -> handleCalc
+}
+
+QActor client context ctx {
+	State s0 initial {
+		println("sono $name") color green
+		delay 500
+		request provider -m calculate : calculate(10)
+	}
+	Transition t0 whenReply replycalc -> handleReply
+
+	State handleReply {
+		onMsg (replycalc : replycalc(N, K)) {
+			printCurrentMessage
+			delay 500
+			request provider -m calculate : calculate(35)
+		}
+	}
+	Transition t1 whenReply replycalc -> ending
+	
+	State ending{
+		onMsg (replycalc : replycalc(N, K)) {
+			printCurrentMessage
+		}
+		println("$name termino") color blue
+		delay 1000
+		[# System.exit(0) #]
+	}
+}
