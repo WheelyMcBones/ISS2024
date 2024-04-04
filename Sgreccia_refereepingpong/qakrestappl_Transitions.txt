@@ -1,0 +1,2 @@
+{"actor":"referee", "msgType":"dispatch", "curstate":"s0", "nextstate":"handleUpdate", "msgId":"ballview"}
+{"actor":"referee", "msgType":"dispatch", "curstate":"handleUpdate", "nextstate":"handleUpdate", "msgId":"ballview"}

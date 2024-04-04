@@ -1,0 +1,86 @@
+System ping
+ 
+Dispatch ball : ball(D)
+
+Event miss: miss(D)
+
+Event startgame: start(V)
+Event endgame: end(V)
+
+Context ctxping  ip [host="localhost" port=8014] 
+Context ctxpong  ip [host="127.0.0.1" port=8015] 
+Context ctxreferee ip[host="127.0.0.1" port=8016]
+
+ExternalQActor pong context ctxpong
+ExternalQActor referee context ctxreferee
+
+
+QActor ping context ctxping{  
+	[# var N = -1 ; val TMAX = 1000L #]
+ 	State s0 initial{
+		delay 200 //pong started ... 
+		println("$name started") color magenta
+		
+	} 
+	Transition t0
+		whenEvent startgame -> starting
+	//Goto receive
+	
+	State starting{
+		println("$name game STARTS") color red
+		delay 500
+		[# N = 1 #]
+		println("$name sends $N  ") color blue
+		updateResource [# "ballview($N)" #]
+		forward pong -m ball : ball($N)	
+	}
+	Goto receive
+	
+	   
+	State receive{
+	} 
+	Transition t0 
+		whenTimeVar TMAX -> endofexchange
+		whenMsg     ball -> reply
+	
+	State reply{
+		onMsg (ball : ball(X)){
+			[# N = payloadArg(0).toInt()#]
+			[# N = N + 1 #]
+			
+			if [# N < 12 #]{
+				delay 100
+				println("$name sends $N") color blue
+				updateResource [#"ballview($N)"#]
+				forward pong -m ball : ball($N)
+			} 
+			else {
+				println("$name MISS!")
+				[# N = 1 #]
+				emit miss : miss($N)
+			}//no forward if N == 1	
+		}
+	}
+	Goto receive	
+	 
+	State endofexchange{
+		println("$name ENDS ") color green
+//		delay 1000
+	}
+	Transition t0 whenEvent endgame -> endgame
+	
+	State endgame{
+		printCurrentMessage color black
+		onMsg(endgame:end(N)){
+			[# val X = payloadArg(0).toInt() #]
+			if [# X == 0 #]{
+				println("$name ho VINTO") color magenta
+			}
+			else{
+				println("$name ho PERSO") color magenta
+			} 
+		}
+		[# System.exit(0) #]
+	}
+ 
+ }

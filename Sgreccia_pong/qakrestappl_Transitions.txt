@@ -1,0 +1,2 @@
+{"actor":"pong", "msgType":"dispatch", "curstate":"starting", "nextstate":"reply", "msgId":"ball"}
+{"actor":"pong", "msgType":"dispatch", "curstate":"reply", "nextstate":"reply", "msgId":"ball"}

@@ -1,0 +1,56 @@
+System referee
+ 
+Dispatch ball : ball(D)
+Dispatch ballview : ballview(V)
+
+Event miss: miss(N)
+
+Event startgame: start(V)
+Event endgame: end(V)
+
+Context ctxpong  ip [host="127.0.0.1" port=8015]
+Context ctxping  ip [host="127.0.0.1" port=8014]
+Context ctxreferee ip[host="localhost" port=8016]
+
+ExternalQActor ping context ctxping
+ExternalQActor pong context ctxpong
+
+
+QActor referee context ctxreferee{
+	[# var X = -1 #]
+	
+	State s0 initial{
+		println("$name started") color magenta
+		observeResource ping msgid ballview 
+		observeResource pong msgid ballview
+
+		delay 700
+		println("$name sending game STARTS") color red	
+		emit startgame : start(0)
+				 
+	} 
+	Transition t0 whenMsg ballview -> handleUpdate
+	 
+	State handleUpdate{
+		printCurrentMessage color blue
+//		println("$name shot from: ${payloadArg(0)}") color black
+		} 
+	Transition t0
+		whenMsg ballview -> handleUpdate
+		whenEvent miss -> endgame
+	
+	State endgame{
+		printCurrentMessage color red
+		println("$name game ENDS!") color red
+		onMsg(miss:miss(N)){
+			[# X = payloadArg(0).toInt() #]
+			println("$name victory goes to $X") color magenta
+			delay 3000
+			emit endgame : end($X)
+		}
+		delay 500 
+		
+		[# System.exit(0) #]
+	}
+
+}
